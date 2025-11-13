@@ -65,3 +65,10 @@ celeryd.pid
 
 # Redis dump file (if configured to save data)
 dump.rdb
+
+# Secrets
+*.txt
+*.pem
+*.key
+.env
+secrets/*
