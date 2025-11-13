@@ -4,11 +4,10 @@ services:
   # 1. Django Web Service
   web:
     build: .  # Build from the Dockerfile in this folder
-    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"  # Map your local port 8000 to container's 8000
     volumes:
-      - .:/app  # Sync code changes for development
+      - .:/usr/src/app  # Sync code changes for development
     depends_on:
       - db
       - redis
@@ -27,7 +26,7 @@ services:
     build: .
     command: celery -A core worker -l info -Q email,push
     volumes:
-      - .:/app  # Sync code changes
+      - .:/usr/src/app  # Sync code changes
     depends_on:
       - web
       - rabbitmq
