@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
 # Custom user model
 AUTH_USER_MODEL = 'user_app.User'
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 # Django REST Framework settings
 REST_FRAMEWORK = {
@@ -121,8 +122,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'notification_db',
+        'USER': 'victor',
+        'PASSWORD': 'secret123',
+        'HOST': 'db',   # This matches the service name in docker-compose.yml
+        'PORT': '5432',
     }
 }
 

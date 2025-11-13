@@ -2,6 +2,7 @@ import requests
 from django.conf import settings
 from core.utils import standardized_response
 import time
+import os
 
 # --- Circuit Breaker State (Conceptual) ---
 # This is a simple Python dictionary that tracks failures.
@@ -50,7 +51,7 @@ def record_failure(service_name):
 # --- Service Client Functions ---
 
 # Base URL for internal service communication (assuming localhost for tutorial)
-BASE_URL = "http://localhost:8000/api/v1"
+BASE_URL = os.environ.get("INTERNAL_API_BASE_URL", "http://localhost:8000/api/v1" )
 
 def get_user_data(user_id: str) -> dict:
     """Fetches user data from the User Service with Circuit Breaker logic."""
