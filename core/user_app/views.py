@@ -11,6 +11,7 @@ from .serializers import (
     UserPreferenceSerializer
 )
 from core.utils import CustomResponseMixin
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -101,3 +102,10 @@ class UserViewSet(CustomResponseMixin, viewsets.ModelViewSet):
             serializer.errors, 
             status=status.HTTP_400_BAD_REQUEST
         )
+    
+def health_check(request ):
+    """
+    Basic health check endpoint for the API Gateway.
+    This meets the project requirement for a /health endpoint.
+    """
+    return JsonResponse({"status": "ok", "message": "Notification System API Gateway is operational!"}, status=200)
