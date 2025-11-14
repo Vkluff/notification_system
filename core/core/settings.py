@@ -211,9 +211,18 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery configuration
-# Celery Configuration
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'amqp://rabbitmq')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://redis:6379/0')
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+# Flag to detect production on Leapcell
+IS_PRODUCTION = os.environ.get("IS_PRODUCTION", "False") == "True"
+
+if IS_PRODUCTION:
+    # Production environment — always use env vars
+    CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
+    CELERY_RESULT_BACKEND = os.environ["CELERY_RESULT_BACKEND"]
+else:
+    # Local Docker defaults
+    CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "amqp://rabbitmq")
+    CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
+
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
